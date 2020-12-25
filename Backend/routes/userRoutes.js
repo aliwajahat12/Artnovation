@@ -94,6 +94,7 @@ router.post('/signup', expressAsyncHandler(async(req, res) => {
 
 router.post('/confirmation', (req, res) => {
 
+
     var tokenString = req.body.token;
     console.log(tokenString);
 
