@@ -12,8 +12,9 @@ const Signup=(props)=>{
     const [confirmPassword, setConfirmPassword] = useState('');
   
     const redirect = props.location.search
-      ? props.location.search.split('=')[1]
-      : '/';
+      ? '/confirmation' 
+      : props.location.search.split('=')[1];
+      console.log("REadirecr",redirect)
   
     const userRegister = useSelector((state) => state.Signup);
     const { userInfo, loading, error } = userRegister;

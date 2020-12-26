@@ -16,7 +16,7 @@ import OrderMine from './Components/Pages/Ordered';
 import Profile from './Components/Pages/Profile';
 import PrivateRoute from './Components/Pages/PrivateRoute';
 import CreateProduct from './Components/Pages/CreateProduct';
-
+import Confirmation from './Components/Pages/Confirmation' 
 const App =()=> {
   const Cart = useSelector( (state) => state.Cart)
   const {CartItems}= Cart;
@@ -76,6 +76,7 @@ console.log("userinfo", userInfo)
   <Route path = '/order/:id' component={OrderDetail}/>
   <Route path = '/ordermine' component={OrderMine}/>
   <Route path = '/upload' component={CreateProduct}/>
+  <Route path = '/confirmation' component={Confirmation}/>
   <PrivateRoute path = '/profile' component={Profile}/>
     </main>
     <footer className = 'row center'>

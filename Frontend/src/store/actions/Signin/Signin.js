@@ -11,7 +11,10 @@ import    {
     USER_DETAILS_SUCCESS,
     USER_DETAILS_FAIL,
     UPDATE_REQUEST,
-    UPDATE_SUCCESS
+    UPDATE_SUCCESS,
+    CONFIRMATION_FAIL,
+    CONFIRMATION_REQUEST,
+    CONFIRMATION_SUCCESS
 } from './actions';
 
 export const SignIn=(email,password)=>async(dispatch)=>{
@@ -141,4 +144,33 @@ export const UpdateUser=(user)=>async(dispatch,getState)=>{
     
         }) 
        }
+}
+
+export const ConfirmationUser = (t)=>async(dispatch)=>{
+    dispatch({
+        type:CONFIRMATION_REQUEST,
+        payload: t
+    })
+    console.log('token ',t);
+    // const id = req.params.id;
+    try{
+        const data = await Axios.post('/api/user/confirmation', {t} )
+        dispatch({
+            type: CONFIRMATION_SUCCESS,
+            payload: data
+        })
+        console.log("Data", data)
+
+    }catch(error)
+    {
+        dispatch({
+            type:CONFIRMATION_FAIL,
+             payload:
+            error.response && error.response.data.message  //payload is checking if the err.response exist if it does then show that else display err.message
+              ? error.response.data.message
+              : error.message
+    
+        }) 
+
+    }
 }

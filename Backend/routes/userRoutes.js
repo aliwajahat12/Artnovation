@@ -1,7 +1,7 @@
 const express = require('express');
 const ash = require('express-async-handler');
 const User = require('../models/user');
-const Token = require('../models/token');
+const OTP = require('../models/token');
 const router = express.Router();
 const expressAsyncHandler = require('express-async-handler');
 const data = require('../data');
@@ -57,18 +57,18 @@ router.post('/signup', expressAsyncHandler(async(req, res) => {
     const createdUser = await user.save() //In there i have created a new user
 
 
-    const tokenObj = new Token({ _userId: createdUser._id, token: crypto.randomBytes(16).toString('hex') });
+    const tokenObj = new OTP({ _userId: createdUser._id, otp: crypto.randomBytes(16).toString('hex') });
     // console.log(tokenObj);
 
     // Save the verification token
     const returnToken = await tokenObj.save();
     console.log(returnToken);
+    var link = `localhost:5000/api/user/confirmation/${returnToken.otp}`;
     const msg = {
         to: createdUser.email, // Change to your recipient
         from: 'aliwajahat1024@gmail.com', // Change to your verified sender
-        subject: 'Account Verification Token',
-        text: 'Verification Token: ' + returnToken.token,
-        // html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+        subject: 'Account Verification Token', 
+        text: tokenObj.otp
     }
     await sgMail
         .send(msg)
@@ -92,64 +92,70 @@ router.post('/signup', expressAsyncHandler(async(req, res) => {
 
 }));
 
-router.post('/confirmation', (req, res) => {
+router.post('/confirmation', expressAsyncHandler(async(req, res) => {
 
-
-    var tokenString = req.body.token;
+console.log("REq", req.body.t )
+    var tokenString = req.body.t;
     console.log(tokenString);
 
     // Find a matching token
-    const foundToken = Token.findOne({ token: tokenString });
-
+    const foundToken = await OTP.findOne({ otp: tokenString });
+    console.log("found Token 12",foundToken)
     if (!foundToken) return res.status(400).send({ type: 'not-verified', msg: 'We were unable to find a valid token. Your token my have expired.' });
 
     // If we found a token, find a matching user
-    const foundUser = User.findOne({ _id: foundToken._userId });
-
+    const foundUser = await User.findById(foundToken._userId );
+    const LINK = `http://localhost:3000/signin`
+     console.log("found User",foundUser)
     if (!foundUser) return res.status(400).send({ msg: 'We were unable to find a user for this token.' });
-    if (foundUser.isVerified) return res.status(400).send({ type: 'already-verified', msg: 'This user has already been verified.' });
-
+    if (foundUser.isVerified) return res.status(400)
+   
+  .send("copy paste the url    "   +   LINK);
+    
+  var mailOptions = { from: 'no-reply@codemoto.io', to: user.email, subject: 'Account Verification Token', 
+  text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' 
+  + req.headers.host + '\/confirmation\/' + token.token + '.\n' };
     // Verify and save the user
-    user.isVerified = true;
-    user.save();
-    res.status(200).send("The account has been verified. Please log in.");
+    foundUser.isVerified = true;
+    foundUser.save();
+    res.status(200).send("The account has been verified. Please log in." + "http://localhost:3000/signin").setHeader("Location", "http://localhost:3000/signin").end();;
 
 
-});
+}));
 
 
-router.post('resend', (req, res) => {
-    req.assert('email', 'Email is not valid').isEmail();
-    req.assert('email', 'Email cannot be blank').notEmpty();
-    req.sanitize('email').normalizeEmail({ remove_dots: false });
+// router.post('resend', (req, res) => {
+//     req.assert('email', 'Email is not valid').isEmail();
+//     req.assert('email', 'Email cannot be blank').notEmpty();
+//     req.sanitize('email').normalizeEmail({ remove_dots: false });
 
-    // Check for validation errors    
-    var errors = req.validationErrors();
-    if (errors) return res.status(400).send(errors);
+//     // Check for validation errors    
+//     var errors = req.validationErrors();
+//     if (errors) return res.status(400).send(errors);
 
-    User.findOne({ email: req.body.email }, function(err, user) {
-        if (!user) return res.status(400).send({ msg: 'We were unable to find a user with that email.' });
-        if (user.isVerified) return res.status(400).send({ msg: 'This account has already been verified. Please log in.' });
+//     User.findOne({ email: req.body.email }, function(err, user) {
+//         if (!user) return res.status(400).send({ msg: 'We were unable to find a user with that email.' });
+//         if (user.isVerified) return res.status(400).send({ msg: 'This account has already been verified. Please log in.' });
 
-        // Create a verification token, save it, and send email
-        var token = new Token({ _userId: user._id, token: crypto.randomBytes(16).toString('hex') });
+//         // Create a verification token, save it, and send email
+//         var code = new OTP({ _userId: user._id, otp: crypto.randomBytes(16).toString('hex') });
 
-        // Save the token
-        token.save(function(err) {
-            if (err) { return res.status(500).send({ msg: err.message }); }
+//         // Save the token
+//         code.save(function(err) {
+//             if (err) { return res.status(500).send({ msg: err.message }); }
 
-            // Send the email
-            // var transporter = nodemailer.createTransport({ service: 'Sendgrid', auth: { user: process.env.SENDGRID_USERNAME, pass: process.env.SENDGRID_PASSWORD } });
-            var mailOptions = { from: 'aliwajahat1024@gmail.com', to: 'aliwajahat1214@gmail.com', subject: 'Account Verification Token', text: 'Hello,\n\n' + token.token + ' .\n' };
-            // var mailOptions = { from: 'aliwajahat1024@gmail.com', to: 'aliwajahat1214@gmail.com', subject: 'Account Verification Token', text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + token.token + '.\n' };
-            sgMail.send(mailOptions, function(err) {
-                if (err) { return res.status(500).send({ msg: err.message }); }
-                res.status(200).send('A verification email has been sent to ' + user.email + '.');
-            });
-        });
+//             // Send the email
+//             // var transporter = nodemailer.createTransport({ service: 'Sendgrid', auth: { user: process.env.SENDGRID_USERNAME, pass: process.env.SENDGRID_PASSWORD } });
+//             var mailOptions = { from: 'aliwajahat1024@gmail.com', to: 'aliwajahat1214@gmail.com', subject: 'Account Verification Token', text: 'Hello,\n\n' + otp.otp + ' .\n' };
+//             // var mailOptions = { from: 'aliwajahat1024@gmail.com', to: 'aliwajahat1214@gmail.com', subject: 'Account Verification Token', text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + token.token + '.\n' };
+//             sgMail.send(mailOptions, function(err) {
+//                 if (err) { return res.status(500).send({ msg: err.message }); }
+//                 res.status(200).send('A verification email has been sent to ' + user.email + '.');
+//             });
+//         });
 
-    });
-});
+//     });
+// });
 
 router.get('/:id',
     expressAsyncHandler(async(req, res) => {
