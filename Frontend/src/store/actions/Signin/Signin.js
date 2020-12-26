@@ -67,10 +67,10 @@ export const SignUp =   (name,email,password)=> async(dispatch)=>{
         type:SIGN_UP_SUCCESS,
         payload:data
     })
-    // dispatch({  //as we are using userInfo in the Signin page to authenticate the user
-    //     type:SIGN_IN_SUCCESS,
-    //     payload:data
-    // })
+    dispatch({  //as we are using userInfo in the Signin page to authenticate the user
+        type:SIGN_IN_SUCCESS,
+        payload:data
+    })
     }catch(error)
     {
         dispatch({
@@ -154,7 +154,7 @@ export const ConfirmationUser = (t)=>async(dispatch)=>{
     console.log('token ',t);
     // const id = req.params.id;
     try{
-        const data = await Axios.post('/api/user/confirmation', {t} )
+        const {data} = await Axios.post('/api/user/confirmation', {t} )
         dispatch({
             type: CONFIRMATION_SUCCESS,
             payload: data

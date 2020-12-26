@@ -2,7 +2,7 @@ import {createStore , compose , applyMiddleware, combineReducers} from 'redux'
 import thunk from 'redux-thunk';
 import  { productDetailsReducer, productListReducer ,CreateProductReducer} from './reducers/Productreducer';
 import {CartReducer} from './reducers/CartReducer';
-import { SigninReducer, SignUpReducer, userDetailsReducer , userUpdateProfileReducer} from './reducers/SigninReducer';
+import { SigninReducer, SignUpReducer, userDetailsReducer , userUpdateProfileReducer , userConfirmationReducer} from './reducers/SigninReducer';
 import {OrderReducer , OrderDetailsReducer,orderMineListReducer} from './reducers/OrderReducer';
 
 
@@ -22,7 +22,7 @@ const initialState={
         ?   JSON.parse(localStorage.getItem('Shippinginfo')) //Converting the cartItems into an array
         : {}
     },
-    Payment: 'Cash On Delivery'
+    // Payment: 'Cash On Delivery'
 }
 const reducer = combineReducers ({
     productList:productListReducer,
@@ -35,7 +35,8 @@ const reducer = combineReducers ({
     OrderMine : orderMineListReducer,
     UserDetails:  userDetailsReducer,
     Update : userUpdateProfileReducer,
-    CreateProduct: CreateProductReducer
+    CreateProduct: CreateProductReducer,
+    Confirmation : userConfirmationReducer
 })
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

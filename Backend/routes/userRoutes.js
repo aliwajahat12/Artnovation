@@ -105,20 +105,18 @@ console.log("REq", req.body.t )
 
     // If we found a token, find a matching user
     const foundUser = await User.findById(foundToken._userId );
-    const LINK = `http://localhost:3000/signin`
+  
      console.log("found User",foundUser)
     if (!foundUser) return res.status(400).send({ msg: 'We were unable to find a user for this token.' });
     if (foundUser.isVerified) return res.status(400)
    
   .send("copy paste the url    "   +   LINK);
     
-  var mailOptions = { from: 'no-reply@codemoto.io', to: user.email, subject: 'Account Verification Token', 
-  text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' 
-  + req.headers.host + '\/confirmation\/' + token.token + '.\n' };
+
     // Verify and save the user
     foundUser.isVerified = true;
     foundUser.save();
-    res.status(200).send("The account has been verified. Please log in." + "http://localhost:3000/signin").setHeader("Location", "http://localhost:3000/signin").end();;
+    res.status(200).send( "http://localhost:3000/").setHeader("Location", "http://localhost:3000/signin").end();;
 
 
 }));

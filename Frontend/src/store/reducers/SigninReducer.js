@@ -12,7 +12,10 @@ import    {
    UPDATE_SUCCESS,
    UPDATE_REQUEST,
    UPDATE_RESET,
-   UPDATE_FAIL
+   UPDATE_FAIL,
+   CONFIRMATION_REQUEST,
+   CONFIRMATION_SUCCESS,
+   CONFIRMATION_FAIL
 } from '../actions/Signin/actions';
 
 export const SigninReducer=(state={}, action)=>{
@@ -78,6 +81,19 @@ export const userDetailsReducer = (state = { loading: true }, action) => {
         return { loading: false, error: action.payload };
       case UPDATE_RESET:
         return {};
+      default:
+        return state;
+    }
+  };
+
+  export const userConfirmationReducer = (state = { loading: false ,token1:[]}, action) => {
+    switch (action.type) {
+      case CONFIRMATION_REQUEST:
+        return { loading: true };
+      case CONFIRMATION_SUCCESS:
+        return { loading: false, token1: action.payload };
+      case CONFIRMATION_FAIL:
+        return { loading: false, error: action.payload };
       default:
         return state;
     }
