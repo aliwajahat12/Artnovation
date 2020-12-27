@@ -50,6 +50,8 @@ const Signup=(props)=>{
               id="name"
               placeholder="Enter name"
               required
+              min="1"
+              max="20"
               onChange={(e) => setName(e.target.value)}
             ></input>
           </div>
@@ -60,6 +62,7 @@ const Signup=(props)=>{
               id="email"
               placeholder="Enter email"
               required
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
               onChange={(e) => setEmail(e.target.value)}
             ></input>
           </div>
@@ -70,6 +73,7 @@ const Signup=(props)=>{
               id="password"
               placeholder="Enter password"
               required
+              min="6"
               onChange={(e) => setPassword(e.target.value)}
             ></input>
           </div>

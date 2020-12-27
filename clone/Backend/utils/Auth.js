@@ -1,63 +1,6 @@
 const jwt= require('jsonwebtoken')
 
-exports.signup = (req, res) => {
-    User.findOne({ email: req.body.email }).exec((error, user) => {
-        if(user) return res.status(400).send({
-            message: 'User already exists'
-        });
-
-        const { 
-            firstName,
-            lastName,
-            userID,
-            email,
-            password
-        } = req.body;
-        const _user = new User({
-            firstName,
-            lastName,
-            userID: Math.random().toString(),
-            email,
-            password
-        });
-
-        _user.save((error, data) => {
-            if(error){
-                return res.status(400).send({
-                    message: 'Something went wrong'
-                });
-            }
-
-            if(data){
-                return res.status(201).send({
-                    message: 'User created successfully'
-                });
-            }
-        });
-    });
-}
-
-exports.signin = (req, res) =>{
-    User.findOne({ email: req.body.email }).exec((error, user) => { 
-        if(error) return res.status(400).send({ error });
-        if(user){
-            if(user.authenticate(req.body.password)){
-                const token = jwt.sign({ _id: user._id }, process.env.JWT_CODE, { expiresIn: '1h' });
-                const { _id, email, role, fullName } = user;
-                res.status(200).send({
-                    token,
-                    user: {
-                        _id, fullName, email, role
-                    }
-                }); 
-            }
-        }else{
-            return res.status(400).send({message: 'Something went wrong'});
-        }
-    });
-}
-
-const isAuth = (req, res, next) => {
+exports.isAuth = (req, res, next) => {
   if (req.method === 'OPTIONS') {
     return next();
   }
@@ -88,4 +31,3 @@ const isAuth = (req, res, next) => {
     console.log("re.user",req.user)
     console.log("Authorization",authorization)
   };
-module.exports= isAuth;

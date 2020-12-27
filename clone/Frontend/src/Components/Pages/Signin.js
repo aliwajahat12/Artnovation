@@ -42,6 +42,7 @@ const SigninScreen=(props)=> {
             id="email"
             placeholder="Enter email"
             required
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
             onChange={(e) => setEmail(e.target.value)} //Wil set the value of email to the entered value
           ></input>
         </div>
@@ -52,6 +53,7 @@ const SigninScreen=(props)=> {
             id="password"
             placeholder="Enter password"
             required
+            min="6"
             onChange={(e) => setPassword(e.target.value)}
           ></input>
         </div>

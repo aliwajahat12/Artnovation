@@ -79,6 +79,8 @@ return (
           id="name"
           placeholder="Enter name"
           value = {name}
+          min="1"
+          max="20"
           onChange={(e) => Setname(e.target.value)}
         ></input>
       </div>
@@ -88,8 +90,9 @@ return (
           type="email"
           id="email"
           placeholder="Enter email"
-           value= {email}
-           onChange={(e)=> Setemail(e.target.value)}
+          value= {email}
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+          onChange={(e)=> Setemail(e.target.value)}
         ></input>
       </div>
       <div>
@@ -108,6 +111,7 @@ return (
           type="password"
           id="confirmPassword"
           placeholder="Enter confirm password"
+          min="6"
           onChange={(e)=> SetConfirmpassword(e.target.value)}
        
         ></input>
