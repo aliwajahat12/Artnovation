@@ -26,7 +26,7 @@ const placeOrderHandler=(e)=>{
     //    orderItems:cart.CartItems}))
     dispatch(OrderRequest({...cart,
        orderItems:cart.CartItems}))
-    console.log("PRoceed to delivery")
+    console.log("Proceed to delivery")
     
  }
 const Order = useSelector((state)=> state.Order);
