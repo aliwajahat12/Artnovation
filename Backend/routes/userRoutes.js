@@ -7,7 +7,7 @@ const expressAsyncHandler = require('express-async-handler');
 const data = require('../data');
 const bcrypt = require('bcrypt')
 const generateToken = require('../utils/utils');
-const {isAuth, signin, signup} = require('../utils/Auth');
+const isAuth = require('../utils/Auth');
 var crypto = require('crypto');
 
 const sgMail = require('@sendgrid/mail');

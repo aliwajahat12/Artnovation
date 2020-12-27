@@ -4,6 +4,9 @@ const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
+// var firebase = require("firebase/app");
+// require("firebase/storage");
+
 
 //Parsing the request containing the data
 app.use(express.json());
@@ -39,6 +42,19 @@ app.use((req, res, next) => {
   next();
 });
 
+
+// //Initialize Firebase
+// var firebaseConfig = {
+//   apiKey: "AIzaSyB1Z7Cju1Lt9HKw1hC_03hVlkdahy2h43I",
+//   authDomain: "artnovation-d57e9.firebaseapp.com",
+//   projectId: "artnovation-d57e9",
+//   storageBucket: "artnovation-d57e9.appspot.com",
+//   messagingSenderId: "143112097093",
+//   appId: "1:143112097093:web:bba0b2684d8adc3fc6822c",
+//   measurementId: "G-ENPXKX8V3J"
+// };
+// firebase.initializeApp(firebaseConfig);
+// firebase.analytics();
 
 
 app.use('/api/user', userRoutes);
