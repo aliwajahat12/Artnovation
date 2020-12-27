@@ -5,12 +5,14 @@ const router= express.Router();
 const asyncexpressHandler   =   require('express-async-handler');
 
 const Product = require('../models/product');
+const User = require('../models/user');
 
 const data = require('../data');
 const expressAsyncHandler = require('express-async-handler');
 
 const fileUpload  = require('../utils/fileUpload');
 const isAuth = require('../utils/Auth');
+const product = require('../models/product');
 router.get('/',asyncexpressHandler(async(req,res)=>{
     const category = req.query.category ? { category: req.query.category } : {};
     const searchKeyword = req.query.searchKeyword
@@ -25,7 +27,7 @@ router.get('/',asyncexpressHandler(async(req,res)=>{
       ? req.query.sortOrder === 'lowest'
         ? { price: 1 }
         : { price: -1 }:{_id: -1}
-       console.log("ID" ,req.query.sortOrder)
+      // console.log("ID" ,req.query.sortOrder)
     
       const products = await Product.find({ ...category, ...searchKeyword }).sort(
         sortOrder
@@ -67,32 +69,44 @@ router.post(
   
     price: req.body.price,
     category:req.body.category,
-    countInStock: req.body.countInStock,
-    rating: req.body.rating,
-    numReviews: req.body.numReviews,
+   
     creator: req.user._id
   }) 
-   console.log("PAth", req.file.path)
+    console.log("PAth", req.file.path)
    console.log("creator", req.body.creator)
+  let user
+  user = await User.findById(req.user._id);
+  if(!user)
+  {
+    res.status(404).send({message :"user not found "})
+  }
 
-    const CreatedProduct = createdProduct.save();
+
+user.products.push(createdProduct)
+    const CreatedProduct = await createdProduct.save();
     console.log("Request.body" , req.body)
     console.log("place is created ", CreatedProduct)
-    res.send({
-       _id: CreatedProduct._id,
-      name:CreatedProduct.name,
-      image: CreatedProduct.path,
-      description: CreatedProduct.description,
-  
-      price: CreatedProduct.price,
-      category:CreatedProduct.category,
-      countInStock: CreatedProduct.countInStock,
-      rating: CreatedProduct.rating,
-      numReviews: CreatedProduct.numReviews
-    })
+    console.log("users",user)
+    res.status(201).json({ product: createdProduct });
   })
   
   )
+
+router.get('/user/:userid' ,
+
+expressAsyncHandler(async(req,res)=>{
+  let product;  
+  console.log("REQ>BOFT", req.body , req.params)
+  const userId =  req.params.userid;
+  console.log("userid",userId)
+   product = await Product.find({creator: userId})
+   console.log("product",product)
+   if (!product || product.length==0) {
+    res.send({Message :"No product found"})
+    }
+  
+    res.status(201).send(product)}))
+
 
 
 module.exports=router

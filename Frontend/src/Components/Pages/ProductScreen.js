@@ -44,6 +44,7 @@ const ProductScreen =(props)=>{
         <ul>
             <li>
                 <h1>{product.name}</h1>
+                <h3>{product.category}</h3>
             </li>
             <li>
                 <Rating 
@@ -75,42 +76,44 @@ const ProductScreen =(props)=>{
             <div >Status  </div>
             <div>
                 {
-                    product.countInStock    > 0?(
-                        <span className='success'> In Stock</span>
+                    product.category ==='Digital'|| 'digital' ?(
+                        <span className='success'> Printed:  (Mugs,T-shirts,Pens) </span>
                     ) :(
-                        <span className='danger'> Out of Stock</span>
+                        <span className='danger'> Printed:Paper</span>
                     )
                 }
             </div>
             </div>
             </li>
             {
-                product.countInStock > 0    &&  (
-                    <div>
-                        <li>
-                            <div className = 'row'>
-                                <div>Quantity</div>
-                                <div>
-                                    <select className='select' value={Qty} onChange={e =>  SetQty(e.target.value)}>
-                                    {[...Array(product.countInStock).keys()].map( //This function will return an array from 0-4 if the countinStock=5
-                                (x) => (
-                                  <option key={x + 1} value={x + 1}>
-                                    {x + 1}
-                                  </option>
-                                )
-                              )}
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-                     <li>
+                // product.countInStock > 0    &&  (
+                //     <div>
+                //         <li>
+                //             <div className = 'row'>
+                //                 <div>Quantity</div>
+                //                 <div>
+                //                     <select className='select' value={Qty} onChange={e =>  SetQty(e.target.value)}>
+                //                     {[...Array(product.countInStock).keys()].map( //This function will return an array from 0-4 if the countinStock=5
+                //                 (x) => (
+                //                   <option key={x + 1} value={x + 1}>
+                //                     {x + 1}
+                //                   </option>
+                //                 )
+                //               )}
+                //                     </select>
+                //                 </div>
+                //             </div>
+                //         </li>
+                //      <li>
+                <div>
+                <li>
                     <button
                     onClick={AddtoCartHandler}
                      className="primary block">Add to Cart</button>
                    </li>
                    </div>
                    
-                ) 
+                
             }
            
         </ul>

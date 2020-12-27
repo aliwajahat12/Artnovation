@@ -38,20 +38,7 @@ const Payment=(props)=>{
       </div>
      
      
-      <div>
-        <div>
-          <input
-            type="radio"
-            id="paypal"
-            value="PayPal"
-            name="paymentMethod"
-            required
-         
-            onChange={(e) => SetPayment(e.target.value)}
-          ></input>
-          <label htmlFor="paypal">PayPal</label>
-        </div>
-      </div>
+     
      
       <div>
         <label />

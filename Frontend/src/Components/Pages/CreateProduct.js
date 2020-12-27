@@ -8,8 +8,10 @@ import MessageBox from '../UI/Error';
 import ImageUpload from '../UI/Imageupload';
 import  {useForm} from '../UI/form-hook';
 import Input from '../UI/Input'
+import Dropdown from '../UI/Dropdown'
 import Axios from 'axios';
 import { VALIDATOR_REQUIRE ,VALIDATOR_MINLENGTH } from '../UI/Validators';
+import DropDown from '../UI/Dropdown';
 // import {VALIDATOR_REQUIRE} from '../UI/Validators'; 
 const CreateProducts=(props)=>{
 
@@ -23,10 +25,16 @@ const CreateProducts=(props)=>{
             value: '',
             isValid: false
           },
-         category: {
-            value: '',
-            isValid: false
-          },
+          category:{
+            elementtype: 'select',
+            elementconfig:{
+                options:[
+                {Value:'physical' , DisplayValue:'Physical'},
+                {Value :'digital', DisplayValue:'Digital'}],
+                value:''
+            },
+            isValid:true
+            },
           image:{
             value: null,
             isValid: false
@@ -35,18 +43,7 @@ const CreateProducts=(props)=>{
             value: '',
             isValid: false
           },
-          rating: {
-            value: '',
-            isValid: false
-          },
-          countInStock: {
-            value: '',
-            isValid: false
-          },
-          numReviews: {
-            value: '',
-            isValid: false
-          },
+          
         },
         false
       );
@@ -89,20 +86,21 @@ const CreateProducts=(props)=>{
 const history = useHistory();
 // console.log("DATA",description,name,category,image)
 console.log("DATA",formstate.inputs.description,formstate.inputs.name,formstate.inputs.category,formstate.inputs.image)
-
-console.log("userInfo id" ,userInfo._id , userInfo.token)
+console.log("USERINFO", userInfo)
+// console.log("userInfo id" ,userInfo._id , userInfo.token)
 
 const SubmitFormHandler = async event => {
     event.preventDefault();
+    console.log("submitting")
     try {
       const formData = new FormData();
       formData.append('name', formstate.inputs.name.value);
       formData.append('description',formstate.inputs.description.value);
       formData.append('category', formstate.inputs.category.value);
       formData.append('price', formstate.inputs.price.value);
-      formData.append('rating', formstate.inputs.rating.value);
-      formData.append('countInStock', formstate.inputs.countInStock.value);
-      formData.append('numReviews', formstate.inputs.numReviews.value);
+    
+      // formData.append('countInStock', formstate.inputs.countInStock.value);
+     
      
       formData.append('image',formstate.inputs.image.value)
       formData.append('creator', userInfo._id);
@@ -171,15 +169,17 @@ const SubmitFormHandler = async event => {
             <ImageUpload center id="image" onInput={inputHandler}/>
              
           <div>
+            {<p> Category can only be Physical or Digital</p>}
            <Input 
             id='category'
-           // element='input' 
-            type='text' 
+            element='select' 
+            type='select' 
             label='Category'
             errorMessage="Please Enter a valid Category"
             validators={[VALIDATOR_REQUIRE()]}
             onInput={inputHandler}
             />
+            <DropDown></DropDown>
           </div>
             
 
@@ -194,43 +194,7 @@ const SubmitFormHandler = async event => {
             onInput={inputHandler}
             />
           </div>
-
-          <div>
-          <Input 
-            id='countInStock'
-           // element='countinstock' 
-            type='number' 
-            label='countInStock'
-            errorMessage="Please Enter a valid countInStock"
-            validators={[VALIDATOR_REQUIRE()]}
-            onInput={inputHandler}
-            />
-          </div>
-
-
-          <div>
-          <Input 
-            id='rating'
-           // element='rating' 
-            type='number' 
-            label='Rating'
-            errorMessage="Please Enter a valid Rating"
-            validators={[VALIDATOR_REQUIRE()]}
-            onInput={inputHandler}
-            />
-          </div>
-
-          <div>
-          <Input 
-            id='numReviews'
-            //element='numreviews' 
-            type='number' 
-            label='numReviews'
-            errorMessage="Please Enter a valid numReviews"
-            validators={[VALIDATOR_REQUIRE()]}
-            onInput={inputHandler}
-            />
-          </div>
+        {/* <Dropdown></Dropdown> */}
 
           {/* <ImageUpload center id="image" onInput={inputHandler}/> */}
           <div>

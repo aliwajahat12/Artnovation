@@ -17,6 +17,10 @@ import Profile from './Components/Pages/Profile';
 import PrivateRoute from './Components/Pages/PrivateRoute';
 import CreateProduct from './Components/Pages/CreateProduct';
 import Confirmation from './Components/Pages/Confirmation' 
+import UserProducts from './Components/Pages/UserProducts';
+
+import DropDown from './Components/UI/Dropdown';;
+
 const App =()=> {
   const Cart = useSelector( (state) => state.Cart)
   const {CartItems}= Cart;
@@ -45,11 +49,12 @@ console.log("userinfo", userInfo)
         } </Link>
           {userInfo ? (
              
-                  
+                  <div>
                     <Link to="#signout" onClick={SignOutHandler}>
                       Sign Out
                     </Link>
-                  
+                       <Link to = {`/userproducts/${userInfo._id}`}>Uploaded products </Link> 
+  </div>                
              ) : (
               <Link to="/signin">Sign In</Link>
             )}</div>
@@ -58,6 +63,7 @@ console.log("userinfo", userInfo)
                    <Link to = '/ordermine'> Order History</Link>
                    <Link to = '/profile'> Profile</Link>
                    <Link to = '/upload'> Upload Product</Link>
+                
                    </div>
             }
             <div>
@@ -77,6 +83,8 @@ console.log("userinfo", userInfo)
   <Route path = '/ordermine' component={OrderMine}/>
   <Route path = '/upload' component={CreateProduct}/>
   <Route path = '/confirmation' component={Confirmation}/>
+  <Route path = '/userproducts/:id'  component={UserProducts}/>
+
   <PrivateRoute path = '/profile' component={Profile}/>
     </main>
     <footer className = 'row center'>

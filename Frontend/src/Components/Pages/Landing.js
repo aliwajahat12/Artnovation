@@ -33,7 +33,7 @@ const Home =(props)=>{
     dispatch(listProducts(category, searchKeyword, sortOrder));
   };
 //    const {product}=props
-  console.log(products,loading,Error)
+  console.log("Products",products)
   return (
     <div>
       {category && <h2>{category}</h2>}
@@ -69,7 +69,8 @@ const Home =(props)=>{
                 <Link to={'/product/' + product._id}>
                   <img
                     className="product-image"
-                    src={product.image}
+                 //src={product.image}
+                    src={`http://localhost:3000/images/${product.image}`}
                     alt="product"
                   />
                 </Link>
@@ -79,9 +80,9 @@ const Home =(props)=>{
                 <div className="product-brand">{product.brand}</div>
                 <div className="product-price">${product.price}</div>
                 <div className="product-rating">
-                <Rating 
+                {/* <Rating 
                 rating ={product.rating} 
-                numReviews={product.numReviews}/>
+                numReviews={product.numReviews}/> */}
                   
                 </div>
               </div>

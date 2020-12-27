@@ -8,7 +8,10 @@ import {
   PRODUCT_DETAILS_SUCCESS,
   CREATE_PRODUCT_REQUEST,
   CREATE_PRODUCT_FAIL,
-  CREATE_PRODUCT_SUCCESS
+  CREATE_PRODUCT_SUCCESS,
+  USER_PRODUCT_REQUEST,
+  USER_PRODUCT_SUCCESS,
+  USER_PRODUCT_FAIL
 } from './actions.js';
 
 export const listProducts = ( category = '',searchKeyword = '',sortOrder = '') =>
@@ -72,5 +75,34 @@ export const CreateProduct = (product)=>async(dispatch)=>{
       : err.message
     })
 
+  }
+}
+
+
+export const UserProduct =(userId)=> async(dispatch)=>{
+  dispatch({
+    type :  USER_PRODUCT_REQUEST,
+    payload:userId
+  })
+  try{
+    const {data}= await Axios.get(`/api/products/user/${userId}`)
+    console.log('DATA',data)
+   ;
+    console.log("DATA 2" ,Object.keys(data))
+
+   
+   
+    dispatch({
+      type: USER_PRODUCT_SUCCESS,
+      payload:data
+    })
+  }catch(err)
+  {
+    dispatch({
+      type: USER_PRODUCT_FAIL,
+      payload: err.response && err.response.data.messsage
+      ? err.response.data.message
+      : err.message
+    })
   }
 }

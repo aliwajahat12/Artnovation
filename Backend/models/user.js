@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
     isVerified: { type: Boolean, default: false },
     isAdmin: { type: Boolean, default: false, required: true },
+    products:  [{ type: mongoose.Types.ObjectId, required: true, ref: 'Products' }]
 }, {
     timestamps: true,
 });

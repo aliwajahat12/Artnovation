@@ -52,7 +52,8 @@ router.post('/signup', expressAsyncHandler(async(req, res) => {
         name: req.body.name,
         email: req.body.email,
         isVerified: false,
-        password: bcrypt.hashSync(req.body.password, 8)
+        password: bcrypt.hashSync(req.body.password, 8),
+        products:[]
     })
     const createdUser = await user.save() //In there i have created a new user
 
