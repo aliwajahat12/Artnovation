@@ -22,8 +22,8 @@ console.log("P ",product )
 
 // console.log("obj", obj.map((p)=>p.name))
 
-const Delete = (e,id)=>{
-  e.preventDefault()
+const Delete = (id)=>{
+ // e.preventDefault()
   console.log("Deleting")
   dispatch(DeleteProduct(id));
   // props.history.push('/')
@@ -68,7 +68,7 @@ useEffect(()=>{
                 </div>
               </div>
               <button
-                      type="button"
+                      type="submit"
                       onClick={Delete(product._id)}
                       className="primary block">Delete</button>
             </li>
