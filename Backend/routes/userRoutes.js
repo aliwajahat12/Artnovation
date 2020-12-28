@@ -23,8 +23,6 @@ router.get(
     })
 );
 
-
-
 router.post(
     '/signin',
     expressAsyncHandler(async(req, res) => {

@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState , useCallback } from 'react';
 import { useDispatch , useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
@@ -83,17 +84,28 @@ const CreateProducts=(props)=>{
         
     //   }
     //  };
-const history = useHistory();
+
 // console.log("DATA",description,name,category,image)
 console.log("DATA",formstate.inputs.description,formstate.inputs.name,formstate.inputs.category,formstate.inputs.image)
 console.log("USERINFO", userInfo)
 // console.log("userInfo id" ,userInfo._id , userInfo.token)
 
-const SubmitFormHandler = async event => {
+
+
+
+ 
+
+
+  
+  const history = useHistory();
+
+  const SubmitFormHandler = async (event) => {
+
     event.preventDefault();
     console.log("submitting")
     try {
       const formData = new FormData();
+
       formData.append('name', formstate.inputs.name.value);
       formData.append('description',formstate.inputs.description.value);
       formData.append('category', formstate.inputs.category.value);
@@ -111,61 +123,48 @@ const SubmitFormHandler = async event => {
       }
     }
     
-      // JSON.stringify({
-      //   title: formstate.inputs.title.value,
-      //   description: formstate.inputs.description.value,
-      //   address: formstate.inputs.address.value,
-      //   creator: auth.userId
       );
-      console.log("FormData" , formData.inputs)
-
-    //   console.log(auth.userId)
-      history.push('/');
-
-    }catch (err) {
+      
+      //   console.log(auth.userId)
+      history.push("/");
+    } catch (err) {
       console.log(err);
-      console.log(err.message)}
+      console.log(err.message);
+    }
   };
-//   console.log("Form States" , formstate)
-
-
-    
-        // useEffect(()=>{
-        //     dispatch(CreateProduct({name, description , price, category, countInStock, rating ,numReviews}));
-        // }, [dispatch, name ,image,description,price , rating , numReviews , category]);
   
-        
-    return (
-      <div>
-        <form className="form" onSubmit={SubmitFormHandler}>
-          <div>
-            <h1>Upload  a Product</h1>
-          </div>
-          {loading && <Spinner/>}
-          {error && <MessageBox variant="danger">{error}</MessageBox>}
-          <div>
-        
-            <Input
+  return (
+    <div>
+      <form className="form" onSubmit={SubmitFormHandler}>
+        <div>
+          <h1>Upload a Product</h1>
+        </div>
+        {loading && <Spinner />}
+        {error && <MessageBox variant="danger">{error}</MessageBox>}
+        <div>
+          <Input
             id="name"
-           // element='name'
-              type="text"
-              label = 'Name'
-              placeholder="Enter name"
-              errorMessage="Please Enter a valid Name"
-              validators={[VALIDATOR_REQUIRE()]}
-              onInput={inputHandler}
-        //  onChange = {(e)=>setName(e.target.value)}
-            ></Input>
-          </div>
-          <Input 
-            id='description'
-            //element='textarea' 
-            type='text' 
-            label='Description'
-            errorMessage="Please Enter a valid Description ( 5 characters minimum)"
-            validators={[VALIDATOR_MINLENGTH(5)]}
+            // element='name'
+            type="text"
+            label="Name"
+            placeholder="Enter name"
+            errorMessage="Please Enter a valid Name"
+            validators={[VALIDATOR_REQUIRE()]}
             onInput={inputHandler}
+
             />
+              <Input
+            id="description"
+            // element='name'
+            type="text"
+            label="Description"
+            placeholder="Enter name"
+            errorMessage="Please Enter a valid Description"
+            validators={[VALIDATOR_REQUIRE()]}
+            onInput={inputHandler}
+
+            />
+            
             <ImageUpload center id="image" onInput={inputHandler}/>
              
           <div>
@@ -179,7 +178,7 @@ const SubmitFormHandler = async event => {
             validators={[VALIDATOR_REQUIRE()]}
             onInput={inputHandler}
             />
-            <DropDown></DropDown>
+            {/* <DropDown></DropDown> */}
           </div>
             
 
@@ -207,10 +206,12 @@ const SubmitFormHandler = async event => {
             <label />
            
           </div>
+          </div>
         </form>
-      </div>
+        </div>
+      
     );
+  
   }
-
-
 export default CreateProducts;
+  
