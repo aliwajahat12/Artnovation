@@ -70,7 +70,7 @@ const Home =(props)=>{
                   <img
                     className="product-image"
                  //src={product.image}
-                    src={`http://localhost:3000/images/${product.image}`}
+                    src={product.image}
                     alt="product"
                   />
                 </Link>

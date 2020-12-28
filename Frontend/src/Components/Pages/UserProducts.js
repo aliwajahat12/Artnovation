@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { CreateProduct } from '../../store/actions/ProductActions/products';
+import { CreateProduct, DeleteProduct } from '../../store/actions/ProductActions/products';
 import { UserProduct } from '../../store/actions/ProductActions/products';
 import { Link } from 'react-router-dom';
 
@@ -22,7 +22,12 @@ console.log("P ",product )
 
 // console.log("obj", obj.map((p)=>p.name))
 
-
+const Delete = (e,id)=>{
+  e.preventDefault()
+  console.log("Deleting")
+  dispatch(DeleteProduct(id));
+  // props.history.push('/')
+}
 // console.log("Keys",Object.keys(product))
 console.log("userinfo", userInfo)
 useEffect(()=>{
@@ -46,7 +51,7 @@ useEffect(()=>{
                   <img
                     className="product-image"
                  //src={product.image}
-                    src={`http://localhost:3000/images/${product.image}`}
+                    src={product.image}
                     alt="product"
                   />
                 </Link>
@@ -62,6 +67,10 @@ useEffect(()=>{
                   
                 </div>
               </div>
+              <button
+                      type="button"
+                      onClick={Delete(product._id)}
+                      className="primary block">Delete</button>
             </li>
           ))}
         </ul>

@@ -11,7 +11,10 @@ import {
   CREATE_PRODUCT_SUCCESS,
   USER_PRODUCT_REQUEST,
   USER_PRODUCT_SUCCESS,
-  USER_PRODUCT_FAIL
+  USER_PRODUCT_FAIL,
+  DELETE_PRODUCT_REQUEST,
+  DELETE_PRODUCT_FAIL,
+  DELETE_PRODUCT_SUCCESS
 } from './actions.js';
 
 export const listProducts = ( category = '',searchKeyword = '',sortOrder = '') =>
@@ -105,4 +108,25 @@ export const UserProduct =(userId)=> async(dispatch)=>{
       : err.message
     })
   }
+}
+
+
+
+export const DeleteProduct = (id) => async(dispatch)=>{
+  dispatch({
+    type:DELETE_PRODUCT_REQUEST
+  })
+try{
+  const {data} = await Axios.get(`/api/products/delete/${id}`)
+console.log("data" , data)
+dispatch({type: DELETE_PRODUCT_SUCCESS})
+}catch(err)
+{
+  dispatch({
+    type: DELETE_PRODUCT_FAIL,
+    payload: err.response && err.response.data.messsage
+    ? err.response.data.message
+    : err.message
+  })
+}
 }
