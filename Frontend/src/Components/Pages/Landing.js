@@ -13,6 +13,8 @@ const Home =(props)=>{
 
   const [searchKeyword, setSearchKeyword] = useState('');
   const [sortOrder, setSortOrder] = useState('');
+  const productz= useSelector((state)=> state.UserProducts)
+  const {product}= productz;
   const category = props.match.params.id ? props.match.params.id : '';
 
    const dispatch = useDispatch();
@@ -34,6 +36,8 @@ const Home =(props)=>{
   };
 //    const {product}=props
   console.log("Products",products)
+  console.log("Products of user",product)
+
   return (
     <div>
       {category && <h2>{category}</h2>}

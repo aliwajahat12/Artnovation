@@ -23,16 +23,21 @@ import DropDown from './Components/UI/Dropdown';;
 
 const App =()=> {
   const Cart = useSelector( (state) => state.Cart)
+  // const createproduct = useSelector((state)=>state.UserProducts);
+
+  // const {product ,loading , error} = createproduct;
   const {CartItems}= Cart;
   const SignIn= useSelector((state)=> state.Signin);
       const {userInfo}  = SignIn;  //userInfo name should be same as in the reducer
     
   const dispatch  = useDispatch();
-
+// console.log("USerPRoduct",product);
   const SignOutHandler=()=>{
     dispatch(SignOut());
   }
 console.log("userinfo", userInfo)
+
+// console.log("product" , product.length)
     return (
       <BrowserRouter>
       <div className = 'grid-container'>
@@ -53,16 +58,19 @@ console.log("userinfo", userInfo)
                     <Link to="#signout" onClick={SignOutHandler}>
                       Sign Out
                     </Link>
-                       <Link to = {`/userproducts/${userInfo._id}`}>Uploaded products </Link> 
+                    {/* {( product.length > 0) ? ( */}
+                       <Link to = {`/userproducts/${userInfo._id}`}>Uploaded products </Link>
+                    {/* ): null} */}
+                       <Link to = '/ordermine'> Order History</Link>
+                   <Link to = '/profile'> Profile</Link>
+                   <Link to = '/upload'> Upload Product</Link>
   </div>                
              ) : (
               <Link to="/signin">Sign In</Link>
             )}</div>
             {
               <div>
-                   <Link to = '/ordermine'> Order History</Link>
-                   <Link to = '/profile'> Profile</Link>
-                   <Link to = '/upload'> Upload Product</Link>
+                 
                 
                    </div>
             }
